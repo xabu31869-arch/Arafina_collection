@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arafina Admin</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#0f0f0f;color:white}
+.login,.admin{max-width:900px;margin:40px auto;padding:20px}
+.box{background:#1b1b1b;padding:25px;border-radius:18px;box-shadow:0 10px 30px #0008}
+h1,h2{text-align:center}
+input,select{width:100%;padding:14px;margin:8px 0 15px;border-radius:10px;border:1px solid #333;background:#222;color:white}
+button{width:100%;padding:15px;border:0;border-radius:10px;background:#d4af37;color:#111;font-weight:bold;cursor:pointer}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.hidden{display:none}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.logout{width:auto;background:#ff4444;color:white;padding:10px 18px}
+.card{background:#222;padding:18px;border-radius:15px;margin-top:20px}
+@media(max-width:700px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
 
+<div class="login" id="loginBox">
+  <div class="box">
+    <h1>ARAFINA ADMIN</h1>
+    <p style="text-align:center">Admin panelga kirish</p>
+
+    <input id="login" placeholder="Login">
+    <input id="password" type="password" placeholder="Parol">
+
+    <button onclick="loginAdmin()">Kirish</button>
+    <p id="error" style="color:red;text-align:center"></p>
+  </div>
+</div>
+
+<div class="admin hidden" id="adminPanel">
+  <div class="top">
+    <h2>Arafina Admin Panel</h2>
+    <button class="logout" onclick="logout()">Chiqish</button>
+  </div>
+
+  <div class="box">
+    <h2>Yangi mahsulot qo‘shish</h2>
+
+    <input id="name" placeholder="Mahsulot nomi">
+
+    <div class="row">
+      <input id="category" placeholder="Kategoriya">
+      <input id="color" placeholder="Rang">
+    </div>
+
+    <div class="row">
+      <input id="fabric" placeholder="Mato turi">
+      <input id="size" placeholder="Razmerlar: 50,52,54,56">
+    </div>
+
+    <div class="row">
+      <input id="price" type="number" placeholder="Narx">
+      <input id="stock" type="number" placeholder="Ombordagi soni">
+    </div>
+
+    <input id="image_url" placeholder="Rasm URL">
+
+    <select id="status">
+      <option value="active">active — saytda ko‘rinadi</option>
+      <option value="hidden">hidden — yashirin</option>
+    </select>
+
+    <button onclick="addProduct()">Mahsulot qo‘shish</button>
+
+    <div class="card">
+      <h3>Hozircha test rejim</h3>
+      <p>Keyingi qadamda bu forma Supabase bazaga ulanadi.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const ADMIN_LOGIN = "admin";
+const ADMIN_PASSWORD = "notarius_123";
+
+function loginAdmin(){
+  const login = document.getElementById("login").value;
+  const password = document.getElementById("password").value;
+
+  if(login === ADMIN_LOGIN && password === ADMIN_PASSWORD){
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("adminPanel").classList.remove("hidden");
+  } else {
+    document.getElementById("error").innerText = "Login yoki parol xato!";
+  }
+}
+
+function logout(){
+  document.getElementById("adminPanel").classList.add("hidden");
+  document.getElementById("loginBox").classList.remove("hidden");
+}
+
+function addProduct(){
+  alert("Keyingi qadamda Supabase bazaga yozadigan qilamiz ✅");
+}
+</script>
+
+</body>
+</html>
