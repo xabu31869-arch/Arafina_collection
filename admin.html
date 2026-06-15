@@ -76,11 +76,17 @@ button{width:100%;padding:15px;border:0;border-radius:10px;background:#d4af37;co
     </div>
   </div>
 </div>
-
-<script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+ 
 const ADMIN_LOGIN = "admin";
 const ADMIN_PASSWORD = "notarius_123";
+const SUPABASE_URL = "https://xghqljlihzmjkdphpozv.supabase.co";
+const SUPABASE_KEY = "sb_publishable_x34gtQp3XibHJW4-24Pznw_nw8xI-bu";
 
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 function loginAdmin(){
   const login = document.getElementById("login").value;
   const password = document.getElementById("password").value;
@@ -98,10 +104,12 @@ function logout(){
   document.getElementById("loginBox").classList.remove("hidden");
 }
 
-function addProduct(){
-  alert("Keyingi qadamda Supabase bazaga yozadigan qilamiz ✅");
+async function addProduct(){
+  alert("Supabase ulanishi tayyor ✅");
 }
-</script>
+
+
+ 
 
 </body>
 </html>
