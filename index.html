@@ -100,26 +100,54 @@ background:#333;
 const SUPABASE_URL = "https://xghqljlihzmjkdphpozv.supabase.co";
 const SUPABASE_KEY = "sb_publishable_x34gtQp3XibHJW4-24Pznw_nw8xI-bu";
 console.log("Supabase connected");
- const productsDiv = document.getElementById("products");
+const productsDiv = document.getElementById("products");
 
-productsDiv.innerHTML = `
+async function loadProducts() {
+
+const { data, error } = await supabase
+.from("products")
+.select("*");
+
+if (error) {
+console.error(error);
+return;
+}
+
+productsDiv.innerHTML = "";
+
+data.forEach(product => {
+productsDiv.innerHTML += `
 <div class="card">
-  <img src="https://xghqljlihzmjkdphpozv.supabase.co/storage/v1/object/public/product-images/Summaya.png">
-  <div class="card-content">
-    <h2>Summaya Abaya</h2>
-    <p>Premium Abaya</p>
-    <div class="price">450 000 so'm</div>
- <a href="https://t.me/arafinaa_collection" target="_blank">
-  <button>Telegram orqali buyurtma</button>
+<img src="${product.image_url}">
+<div class="card-content">
+<h2>${product.name}</h2>
+<p>${product.fabric}</p>
+<div class="price">${product.price.toLocaleString()} so'm</div>
+<div class="stock">Omborda: ${product.stock} ta</div>
+
+<a href="https://t.me/arafinaa_collection" target="_blank">
+<button>Telegram orqali buyurtma</button>
 </a>
+
 <a href="https://instagram.com/arafina_collection" target="_blank">
 <button style="background:#E1306C;margin-top:10px;">
 Instagram sahifamiz
 </button>
 </a>
-  </div>
+
+</div>
 </div>
 `;
+});
+
+}
+
+const supabase = window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+loadProducts();
 </script>
 </body>
 </html>
