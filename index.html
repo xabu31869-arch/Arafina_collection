@@ -101,7 +101,10 @@ const SUPABASE_URL = "https://xghqljlihzmjkdphpozv.supabase.co";
 const SUPABASE_KEY = "sb_publishable_x34gtQp3XibHJW4-24Pznw_nw8xI-bu";
 console.log("Supabase connected");
 const productsDiv = document.getElementById("products");
-
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 async function loadProducts() {
 
 const { data, error } = await supabase
@@ -142,10 +145,7 @@ Instagram sahifamiz
 
 }
 
-const supabase = window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
+ 
 
 loadProducts();
 </script>
