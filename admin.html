@@ -107,7 +107,28 @@ function logout(){
 }
 
 async function addProduct(){
-  alert("Supabase ulanishi tayyor ✅");
+  const product = {
+    name: document.getElementById("name").value,
+    category: document.getElementById("category").value,
+    color: document.getElementById("color").value,
+    fabric: document.getElementById("fabric").value,
+    price: Number(document.getElementById("price").value),
+    stock: Number(document.getElementById("stock").value),
+    image_url: document.getElementById("image_url").value,
+    STATUS: document.getElementById("status").value,
+    SIZE: document.getElementById("size").value
+  };
+
+  const { error } = await supabaseClient
+    .from("products")
+    .insert([product]);
+
+  if(error){
+    alert("Xato: " + error.message);
+  } else {
+    alert("Mahsulot qo‘shildi ✅");
+    location.reload();
+  }
 }
 
 
