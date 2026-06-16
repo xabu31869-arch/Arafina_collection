@@ -5,264 +5,239 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arafina Admin</title>
 <style>
-*{box-sizing:border-box;font-family:Arial,sans-serif}
+*{box-sizing:border-box;font-family:"Poor Richard",serif}
 body{margin:0;background:#0f0f0f;color:white}
-.login,.admin{max-width:1100px;margin:30px auto;padding:20px}
-.box{background:#1b1b1b;padding:25px;border-radius:18px;box-shadow:0 10px 30px #0008;margin-bottom:25px}
+.login,.admin{max-width:1200px;margin:25px auto;padding:20px}
+.box{background:#1b1b1b;padding:22px;border-radius:18px;box-shadow:0 10px 30px #0008;margin-bottom:22px}
 h1,h2{text-align:center}
-input,select{width:100%;padding:14px;margin:8px 0 15px;border-radius:10px;border:1px solid #333;background:#222;color:white}
-button{padding:13px;border:0;border-radius:10px;background:#d4af37;color:#111;font-weight:bold;cursor:pointer}
-.btn{width:100%}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.hidden{display:none}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.logout{background:#ff4444;color:white}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.card{background:#222;border-radius:15px;overflow:hidden}
-.card img{width:100%;height:230px;object-fit:cover;background:#333}
-.card-body{padding:15px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.delete{background:#ff4444;color:white}
+input,select{width:100%;padding:13px;margin:7px 0 14px;border-radius:10px;border:1px solid #333;background:#222;color:white}
+button{padding:12px;border:0;border-radius:10px;background:#d4af37;color:#111;font-weight:bold;cursor:pointer}
+.btn{width:100%}.hidden{display:none}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.logout,.delete{background:#ff4444;color:white}
 .edit{background:#0088cc;color:white}
-@media(max-width:700px){.row{grid-template-columns:1fr}.top{display:block}}
+.done{background:#21b66f;color:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:#222;border-radius:15px;overflow:hidden}
+.card img{width:100%;height:220px;object-fit:cover;background:#333}
+.card-body{padding:15px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.order{border-left:5px solid #d4af37}
+.status{color:#d4af37;font-weight:bold}
+@media(max-width:700px){.row,.actions{grid-template-columns:1fr}.top{display:block}}
 </style>
 </head>
 <body>
 
 <div class="login" id="loginBox">
-  <div class="box">
-    <h1>ARAFINA ADMIN</h1>
-    <p style="text-align:center">Admin panelga kirish</p>
-    <input id="login" placeholder="Login">
-    <input id="password" type="password" placeholder="Parol">
-    <button class="btn" onclick="loginAdmin()">Kirish</button>
-    <p id="error" style="color:red;text-align:center"></p>
-  </div>
+<div class="box">
+<h1>ARAFINA ADMIN</h1>
+<p style="text-align:center">Admin panelga kirish</p>
+<input id="login" placeholder="Login">
+<input id="password" type="password" placeholder="Parol">
+<button class="btn" onclick="loginAdmin()">Kirish</button>
+<p id="error" style="color:red;text-align:center"></p>
+</div>
 </div>
 
 <div class="admin hidden" id="adminPanel">
-  <div class="top">
-    <h2>Arafina Admin Panel</h2>
-    <button class="logout" onclick="logout()">Chiqish</button>
-  </div>
+<div class="top">
+<h2>Arafina Admin Panel</h2>
+<button class="logout" onclick="logout()">Chiqish</button>
+</div>
 
-  <div class="box">
-    <h2 id="formTitle">Yangi mahsulot qo‘shish</h2>
+<div class="box">
+<h2>Buyurtmalar</h2>
+<button class="btn" onclick="loadOrders()">Buyurtmalarni yangilash</button>
+<br><br>
+<div class="grid" id="orders"></div>
+</div>
 
-    <input type="hidden" id="product_id">
+<div class="box">
+<h2 id="formTitle">Yangi mahsulot qo‘shish</h2>
+<input type="hidden" id="product_id">
+<input id="name" placeholder="Mahsulot nomi">
 
-    <input id="name" placeholder="Mahsulot nomi">
+<div class="row">
+<input id="category" placeholder="Kategoriya">
+<input id="color" placeholder="Rang">
+</div>
 
-    <div class="row">
-      <input id="category" placeholder="Kategoriya">
-      <input id="color" placeholder="Rang">
-    </div>
+<div class="row">
+<input id="fabric" placeholder="Mato turi">
+<input id="size" placeholder="Razmerlar: 50,52,54,56">
+</div>
 
-    <div class="row">
-      <input id="fabric" placeholder="Mato turi">
-      <input id="size" placeholder="Razmerlar: 50,52,54,56">
-    </div>
+<div class="row">
+<input id="price" type="number" placeholder="Narx">
+<input id="stock" type="number" placeholder="Ombordagi soni">
+</div>
 
-    <div class="row">
-      <input id="price" type="number" placeholder="Narx">
-      <input id="stock" type="number" placeholder="Ombordagi soni">
-    </div>
+<input id="image_url" placeholder="Rasm URL">
+<input id="image_file" type="file" accept="image/*">
 
-    <input id="image_url" placeholder="Rasm URL avtomatik tushadi">
-    <input id="image_file" type="file" accept="image/*">
+<select id="status">
+<option value="active">active — saytda ko‘rinadi</option>
+<option value="hidden">hidden — yashirin</option>
+</select>
 
-    <select id="status">
-      <option value="active">active — saytda ko‘rinadi</option>
-      <option value="hidden">hidden — yashirin</option>
-    </select>
+<button class="btn" onclick="saveProduct()">Saqlash</button>
+<button class="btn" style="background:#555;color:white;margin-top:10px" onclick="clearForm()">Formani tozalash</button>
+</div>
 
-    <button class="btn" onclick="saveProduct()">Saqlash</button>
-    <button class="btn" style="background:#555;color:white;margin-top:10px" onclick="clearForm()">Formani tozalash</button>
-  </div>
-
-  <div class="box">
-    <h2>Mahsulotlar ro‘yxati</h2>
-    <input id="search" placeholder="Qidirish..." oninput="loadProducts()">
-    <div class="products" id="products"></div>
-  </div>
+<div class="box">
+<h2>Mahsulotlar</h2>
+<input id="search" placeholder="Qidirish..." oninput="loadProducts()">
+<div class="grid" id="products"></div>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
 <script>
-const ADMIN_LOGIN = "admin";
-const ADMIN_PASSWORD = "notarius_123";
-
-const SUPABASE_URL = "https://xghqljlihzmjkdphpozv.supabase.co";
-const SUPABASE_KEY = "sb_publishable_x34gtQp3XibHJW4-24Pznw_nw8xI-bu";
-
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const ADMIN_LOGIN="admin";
+const ADMIN_PASSWORD="notarius_123";
+const SUPABASE_URL="https://xghqljlihzmjkdphpozv.supabase.co";
+const SUPABASE_KEY="sb_publishable_x34gtQp3XibHJW4-24Pznw_nw8xI-bu";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 function loginAdmin(){
-  const login = document.getElementById("login").value;
-  const password = document.getElementById("password").value;
-
-  if(login === ADMIN_LOGIN && password === ADMIN_PASSWORD){
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("adminPanel").classList.remove("hidden");
-    loadProducts();
-  } else {
-    document.getElementById("error").innerText = "Login yoki parol xato!";
-  }
+const login=document.getElementById("login").value;
+const password=document.getElementById("password").value;
+if(login===ADMIN_LOGIN && password===ADMIN_PASSWORD){
+document.getElementById("loginBox").classList.add("hidden");
+document.getElementById("adminPanel").classList.remove("hidden");
+loadProducts();loadOrders();
+}else{document.getElementById("error").innerText="Login yoki parol xato!";}
 }
 
 function logout(){
-  document.getElementById("adminPanel").classList.add("hidden");
-  document.getElementById("loginBox").classList.remove("hidden");
+document.getElementById("adminPanel").classList.add("hidden");
+document.getElementById("loginBox").classList.remove("hidden");
 }
 
 async function uploadImage(){
-  const file = document.getElementById("image_file").files[0];
-  if(!file) return document.getElementById("image_url").value;
-
-  const fileName = Date.now() + "-" + file.name;
-
-  const { error } = await supabaseClient.storage
-    .from("product-images")
-    .upload(fileName, file);
-
-  if(error){
-    alert("Rasm yuklashda xato: " + error.message);
-    return "";
-  }
-
-  const { data } = supabaseClient.storage
-    .from("product-images")
-    .getPublicUrl(fileName);
-
-  return data.publicUrl;
+const file=document.getElementById("image_file").files[0];
+if(!file)return document.getElementById("image_url").value;
+const fileName=Date.now()+"-"+file.name;
+const {error}=await supabaseClient.storage.from("product-images").upload(fileName,file);
+if(error){alert("Rasm xato: "+error.message);return "";}
+const {data}=supabaseClient.storage.from("product-images").getPublicUrl(fileName);
+return data.publicUrl;
 }
 
 async function saveProduct(){
-  const imageUrl = await uploadImage();
-
-  const product = {
-    name: document.getElementById("name").value,
-    category: document.getElementById("category").value,
-    color: document.getElementById("color").value,
-    fabric: document.getElementById("fabric").value,
-    price: Number(document.getElementById("price").value),
-    stock: Number(document.getElementById("stock").value),
-    image_url: imageUrl,
-    STATUS: document.getElementById("status").value,
-    SIZE: document.getElementById("size").value
-  };
-
-  const id = document.getElementById("product_id").value;
-
-  let result;
-
-  if(id){
-    result = await supabaseClient
-      .from("products")
-      .update(product)
-      .eq("id", id);
-  } else {
-    result = await supabaseClient
-      .from("products")
-      .insert([product]);
-  }
-
-  if(result.error){
-    alert("Xato: " + result.error.message);
-  } else {
-    alert("Saqlandi ✅");
-    clearForm();
-    loadProducts();
-  }
+const imageUrl=await uploadImage();
+const product={
+name:document.getElementById("name").value,
+category:document.getElementById("category").value,
+color:document.getElementById("color").value,
+fabric:document.getElementById("fabric").value,
+price:Number(document.getElementById("price").value),
+stock:Number(document.getElementById("stock").value),
+image_url:imageUrl,
+STATUS:document.getElementById("status").value,
+SIZE:document.getElementById("size").value
+};
+const id=document.getElementById("product_id").value;
+let result=id
+? await supabaseClient.from("products").update(product).eq("id",id)
+: await supabaseClient.from("products").insert([product]);
+if(result.error){alert("Xato: "+result.error.message);}
+else{alert("Saqlandi ✅");clearForm();loadProducts();}
 }
 
 async function loadProducts(){
-  const search = document.getElementById("search")?.value?.toLowerCase() || "";
-
-  const { data, error } = await supabaseClient
-    .from("products")
-    .select("*")
-    .order("id", { ascending:false });
-
-  if(error){
-    alert("Xato: " + error.message);
-    return;
-  }
-
-  const box = document.getElementById("products");
-  box.innerHTML = "";
-
-  data
-    .filter(p => (p.name || "").toLowerCase().includes(search))
-    .forEach(p => {
-      box.innerHTML += `
-        <div class="card">
-          <img src="${p.image_url || 'https://placehold.co/600x400'}">
-          <div class="card-body">
-            <h3>${p.name || ""}</h3>
-            <p>${p.category || ""} | ${p.color || ""}</p>
-            <p>Mato: ${p.fabric || ""}</p>
-            <p>Razmer: ${p.SIZE || ""}</p>
-            <b>${Number(p.price || 0).toLocaleString()} so'm</b>
-            <p>Omborda: ${p.stock || 0} ta</p>
-            <p>Status: ${p.STATUS || ""}</p>
-            <div class="actions">
-              <button class="edit" onclick='editProduct(${JSON.stringify(p)})'>Tahrirlash</button>
-              <button class="delete" onclick="deleteProduct(${p.id})">O‘chirish</button>
-            </div>
-          </div>
-        </div>
-      `;
-    });
+const search=(document.getElementById("search")?.value||"").toLowerCase();
+const {data,error}=await supabaseClient.from("products").select("*").order("id",{ascending:false});
+if(error){alert("Xato: "+error.message);return;}
+const box=document.getElementById("products");box.innerHTML="";
+data.filter(p=>(p.name||"").toLowerCase().includes(search)).forEach(p=>{
+box.innerHTML+=`
+<div class="card">
+<img src="${p.image_url||'https://placehold.co/600x400'}">
+<div class="card-body">
+<h3>${p.name||""}</h3>
+<p>${p.category||""} | ${p.color||""}</p>
+<p>Mato: ${p.fabric||""}</p>
+<p>Razmer: ${p.SIZE||""}</p>
+<b>${Number(p.price||0).toLocaleString()} so'm</b>
+<p>Omborda: ${p.stock||0} ta</p>
+<p>Status: ${p.STATUS||""}</p>
+<div class="actions">
+<button class="edit" onclick='editProduct(${JSON.stringify(p)})'>Tahrirlash</button>
+<button class="delete" onclick="deleteProduct(${p.id})">O‘chirish</button>
+</div>
+</div>
+</div>`;
+});
 }
 
 function editProduct(p){
-  document.getElementById("formTitle").innerText = "Mahsulotni tahrirlash";
-  document.getElementById("product_id").value = p.id;
-  document.getElementById("name").value = p.name || "";
-  document.getElementById("category").value = p.category || "";
-  document.getElementById("color").value = p.color || "";
-  document.getElementById("fabric").value = p.fabric || "";
-  document.getElementById("size").value = p.SIZE || "";
-  document.getElementById("price").value = p.price || "";
-  document.getElementById("stock").value = p.stock || "";
-  document.getElementById("image_url").value = p.image_url || "";
-  document.getElementById("status").value = p.STATUS || "active";
-  window.scrollTo(0,0);
+document.getElementById("formTitle").innerText="Mahsulotni tahrirlash";
+document.getElementById("product_id").value=p.id;
+document.getElementById("name").value=p.name||"";
+document.getElementById("category").value=p.category||"";
+document.getElementById("color").value=p.color||"";
+document.getElementById("fabric").value=p.fabric||"";
+document.getElementById("size").value=p.SIZE||"";
+document.getElementById("price").value=p.price||"";
+document.getElementById("stock").value=p.stock||"";
+document.getElementById("image_url").value=p.image_url||"";
+document.getElementById("status").value=p.STATUS||"active";
+window.scrollTo(0,0);
 }
 
 async function deleteProduct(id){
-  if(!confirm("Rostdan o‘chirasizmi?")) return;
+if(!confirm("Rostdan o‘chirasizmi?"))return;
+const {error}=await supabaseClient.from("products").delete().eq("id",id);
+if(error)alert("Xato: "+error.message);
+else{alert("O‘chirildi ✅");loadProducts();}
+}
 
-  const { error } = await supabaseClient
-    .from("products")
-    .delete()
-    .eq("id", id);
+async function loadOrders(){
+const {data,error}=await supabaseClient.from("orders").select("*").order("id",{ascending:false});
+if(error){alert("Buyurtma xato: "+error.message);return;}
+const box=document.getElementById("orders");box.innerHTML="";
+data.forEach(o=>{
+box.innerHTML+=`
+<div class="card order">
+<div class="card-body">
+<h3>${o.product_name}</h3>
+<p><b>Narx:</b> ${Number(o.product_price||0).toLocaleString()} so'm</p>
+<p><b>Ism:</b> ${o.customer_name||""}</p>
+<p><b>Tel:</b> ${o.phone||""}</p>
+<p><b>Razmer:</b> ${o.size||""}</p>
+<p><b>Manzil:</b> ${o.address||""}</p>
+<p class="status">Status: ${o.status||"new"}</p>
+<div class="actions">
+<button class="edit" onclick="updateOrder(${o.id},'called')">Qo‘ng‘iroq qilindi</button>
+<button class="done" onclick="updateOrder(${o.id},'delivered')">Yetkazildi</button>
+<button class="delete" onclick="deleteOrder(${o.id})">O‘chirish</button>
+</div>
+</div>
+</div>`;
+});
+}
 
-  if(error){
-    alert("Xato: " + error.message);
-  } else {
-    alert("O‘chirildi ✅");
-    loadProducts();
-  }
+async function updateOrder(id,status){
+const {error}=await supabaseClient.from("orders").update({status}).eq("id",id);
+if(error)alert("Xato: "+error.message);
+else loadOrders();
+}
+
+async function deleteOrder(id){
+if(!confirm("Buyurtmani o‘chirasizmi?"))return;
+const {error}=await supabaseClient.from("orders").delete().eq("id",id);
+if(error)alert("Xato: "+error.message);
+else loadOrders();
 }
 
 function clearForm(){
-  document.getElementById("formTitle").innerText = "Yangi mahsulot qo‘shish";
-  document.getElementById("product_id").value = "";
-  document.getElementById("name").value = "";
-  document.getElementById("category").value = "";
-  document.getElementById("color").value = "";
-  document.getElementById("fabric").value = "";
-  document.getElementById("size").value = "";
-  document.getElementById("price").value = "";
-  document.getElementById("stock").value = "";
-  document.getElementById("image_url").value = "";
-  document.getElementById("image_file").value = "";
-  document.getElementById("status").value = "active";
+document.getElementById("formTitle").innerText="Yangi mahsulot qo‘shish";
+["product_id","name","category","color","fabric","size","price","stock","image_url","image_file"].forEach(id=>document.getElementById(id).value="");
+document.getElementById("status").value="active";
 }
 </script>
-
 </body>
 </html>
